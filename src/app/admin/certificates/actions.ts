@@ -16,7 +16,8 @@ export async function revokeCertificate(id: string, reason: string) { return rpc
 export async function issueDirect(_: { error?: string; ok?: string }, form: FormData) {
   const r = await rpc("admin_issue_certificate", {
     p_employee_id: String(form.get("employee_id")), p_type: String(form.get("type")),
-    p_purpose: String(form.get("purpose") ?? "").trim(), p_income_months: Number(form.get("months")) || null
+    p_purpose: String(form.get("purpose") ?? "").trim(), p_income_months: Number(form.get("months")) || null,
+    p_rrn: String(form.get("rrn") ?? "").replace(/\D/g, "") || null
   });
   return r.error ? { error: r.error } : { ok: "발급되었습니다." , id: r.data as string };
 }

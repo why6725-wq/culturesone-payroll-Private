@@ -18,6 +18,10 @@ export default function CertificateDocument({ s, type, issueNo, issuedAt, purpos
   const period = `${K(e.hire_date) ?? "        년    월    일"}부터  ~  ${isCareer && e.resign_date ? `${K(e.resign_date)}까지` : "현재까지"}`;
   const totals = s.income.reduce((a, r) => ({ e: a.e + r.total_earnings, d: a.d + r.total_deductions, n: a.n + r.net_pay }), { e: 0, d: 0, n: 0 });
   const spaced = (t: string) => t.split("").join("  ");
+  // 주민등록번호: 신청 시 전체 입력했으면 13자리, 아니면 생년월일 앞 6자리 + 뒷자리 마스킹
+  const rrnText = e.rrn && e.rrn.length === 13
+    ? `${e.rrn.slice(0, 6)}-${e.rrn.slice(6)}`
+    : e.birth_date ? `${e.birth_date.slice(2, 4)}${e.birth_date.slice(5, 7)}${e.birth_date.slice(8, 10)}-*******` : "";
 
   return (
     <div className="payslip cert">
@@ -34,7 +38,7 @@ export default function CertificateDocument({ s, type, issueNo, issuedAt, purpos
           <tr>
             <th rowSpan={2} className="vert-label">인 적<br />사 항</th>
             <th>성    명</th><td className="info">{e.name}</td>
-            <th>생년월일</th><td className="info">{e.birth_date ? dateDot(e.birth_date) : ""}</td>
+            <th>주민등록번호</th><td className="info tabular-nums">{rrnText}</td>
           </tr>
           <tr>
             <th>주    소</th><td className="info" colSpan={3}>{e.address ?? ""}</td>

@@ -28,7 +28,8 @@ export default function DirectIssueForm({ employees }: { employees: { id: string
         <div><label className="label" htmlFor="d_m">기간</label>
           <select id="d_m" name="months" className="input" defaultValue="3"><option value="3">3개월</option><option value="6">6개월</option><option value="12">12개월</option></select></div>
       ) : <div />}
-      <div className="sm:col-span-3"><label className="label" htmlFor="d_p">사용용도</label><input id="d_p" name="purpose" className="input" required maxLength={100} placeholder="예: 이직 제출용" /></div>
+      <div className="sm:col-span-2"><label className="label" htmlFor="d_p">사용용도</label><input id="d_p" name="purpose" className="input" required maxLength={100} placeholder="예: 이직 제출용" /></div>
+      <div><label className="label" htmlFor="d_r">주민등록번호 전체 (선택)</label><input id="d_r" name="rrn" className="input tabular-nums" inputMode="numeric" maxLength={14} placeholder="비우면 생년월일만" autoComplete="off" /></div>
       <div className="flex items-end"><Submit /></div>
       {state.error && <p className="text-[13px] text-red-600 sm:col-span-4">{state.error}</p>}
       {state.ok && <p className="text-[13px] text-emerald-800 sm:col-span-4">{state.ok} {state.id && <Link href={`/certificates/${state.id}`} className="underline">바로 보기 / 출력</Link>}</p>}

@@ -8,6 +8,7 @@ function Submit() { const { pending } = useFormStatus(); return <button classNam
 export default function RequestForm() {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("EMPLOYMENT");
+  const [fullRrn, setFullRrn] = useState(false);
   const [state, action] = useFormState<CertState, FormData>(requestCertificate, {});
   return (
     <div className="mt-4">
@@ -34,6 +35,26 @@ export default function RequestForm() {
             <label className="label" htmlFor="purpose">사용용도</label>
             <input id="purpose" name="purpose" className="input" maxLength={100} placeholder="예: 은행 대출 제출용, 비자 발급용" required />
           </div>
+          <div className="sm:col-span-2">
+            <label className="flex cursor-pointer items-start gap-2 text-[14px]">
+              <input type="checkbox" name="full_rrn" checked={fullRrn} onChange={(e) => setFullRrn(e.target.checked)} className="mt-1 accent-navy" />
+              <span>주민등록번호 뒷자리까지 표기가 필요합니다 (금융기관·관공서 제출 등)
+                <span className="block text-[12px] text-muted">체크하지 않으면 생년월일(앞 6자리)만 표기됩니다. 입력한 번호는 이 증명서 발급본에만 사용됩니다.</span></span>
+            </label>
+          </div>
+          {fullRrn && (
+            <div className="flex items-end gap-2 sm:col-span-2">
+              <div className="flex-1">
+                <label className="label" htmlFor="rrn_front">본인 생년월일 (6자리)</label>
+                <input id="rrn_front" name="rrn_front" inputMode="numeric" maxLength={6} pattern="\d{6}" placeholder="950515" className="input tabular-nums" required />
+              </div>
+              <span className="pb-2.5 text-lg">-</span>
+              <div className="flex-1">
+                <label className="label" htmlFor="rrn_back">뒷자리 (7자리)</label>
+                <input id="rrn_back" name="rrn_back" type="password" inputMode="numeric" maxLength={7} pattern="\d{7}" placeholder="•••••••" className="input tabular-nums" required autoComplete="off" />
+              </div>
+            </div>
+          )}
           {state.error && <p className="text-[13px] text-red-600 sm:col-span-2">{state.error}</p>}
           {state.ok && <p className="rounded-md bg-emerald-50 px-3 py-2 text-[13px] text-emerald-800 sm:col-span-2">{state.ok}</p>}
           <div className="flex gap-2 sm:col-span-2"><Submit /><button type="button" className="btn-outline" onClick={() => setOpen(false)}>닫기</button></div>
