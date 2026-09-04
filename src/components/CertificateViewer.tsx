@@ -12,7 +12,9 @@ export default function CertificateViewer(p: { id: string; type: string; purpose
     setBusy(true);
     await logCertificatePrint(p.id);   // 출력 기록 (누가·언제·발급번호)
     setBusy(false);
-    setTimeout(() => window.print(), 100);
+    const imgs = Array.from(document.querySelectorAll<HTMLImageElement>(".payslip img"));
+    await Promise.all(imgs.map((im) => (im.complete ? Promise.resolve() : new Promise<void>((res) => { im.onload = () => res(); im.onerror = () => res(); }))));
+    window.print();
   };
   return (
     <>

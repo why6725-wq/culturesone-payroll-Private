@@ -21,8 +21,19 @@ export default function PayslipViewer({ statementId, data, backHref }: { stateme
   useEffect(() => {
     const off = () => setApplied(null);
     window.addEventListener("afterprint", off);
+    // 직인 이미지를 미리 받아둔다 — 날인본 선택 직후 인쇄해도 도장이 빠지지 않도록
+    const pre = new Image(); pre.src = "/seal.png";
     return () => window.removeEventListener("afterprint", off);
   }, []);
+
+  // 문서 안의 이미지(로고·직인)가 전부 로딩된 뒤 인쇄창을 연다
+  const printWhenReady = async () => {
+    await new Promise((r) => setTimeout(r, 50));
+    const imgs = Array.from(document.querySelectorAll<HTMLImageElement>(".payslip img"));
+    await Promise.all(imgs.map((im) => (im.complete ? Promise.resolve() : new Promise<void>((res) => { im.onload = () => res(); im.onerror = () => res(); }))));
+    await Promise.all(imgs.map((im) => im.decode?.().catch(() => undefined)));
+    window.print();
+  };
 
   const run = async () => {
     setError("");
@@ -38,8 +49,7 @@ export default function PayslipViewer({ statementId, data, backHref }: { stateme
       setApplied(null);
     }
     setDialog(null);
-    // 상태 반영 후 인쇄창
-    setTimeout(() => window.print(), 150);
+    setTimeout(printWhenReady, 100);
   };
 
   return (

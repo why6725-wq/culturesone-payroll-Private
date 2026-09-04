@@ -45,25 +45,26 @@ body { font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSy
 .payslip-scaler-inner { transform-origin: top left; }
 
 /* ---------- 인쇄: 문서만 A4 1장 ---------- */
-@page { size: A4 portrait; margin: 15mm 14mm; }
+/* 브라우저 머리글/바닥글(날짜·URL)을 없애기 위해 @page 여백은 0으로 두고, 문서 안쪽 여백으로 대신한다 */
+@page { size: A4 portrait; margin: 0; }
 @media print {
-  html, body { background: #fff !important; }
+  html, body { background: #fff !important; min-height: 0 !important; height: auto !important; margin: 0 !important; padding: 0 !important; }
   header, nav, .no-print { display: none !important; }
   main { max-width: none !important; padding: 0 !important; margin: 0 !important; }
   .card { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; }
   .payslip-scaler { height: auto !important; overflow: visible; }
   .payslip-scaler-inner { width: auto !important; transform: none !important; }
-  .payslip { font-size: 12pt; }
-  .payslip-logo { height: 26pt; margin-bottom: 10pt; }
-  .payslip-title { font-size: 18pt; margin-bottom: 20pt; }
-  .payslip-table th, .payslip-table td { padding: 5pt 7pt; height: 25pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .payslip-table tr.net td { font-size: 14pt; }
-  .payslip-thanks { margin-top: 36pt; font-size: 12pt; }
-  .payslip-company { margin-top: 22pt; font-size: 19pt; }
-  .payslip-issue { margin-top: 20pt; font-size: 10.5pt; }
-  .payslip-issue + .payslip-company { margin-top: 12pt; }
+  .payslip { font-size: 11.5pt; padding: 14mm 15mm 10mm; page-break-inside: avoid; break-inside: avoid; page-break-after: avoid; }
+  .payslip-logo { height: 24pt; margin-bottom: 8pt; }
+  .payslip-title { font-size: 17pt; margin-bottom: 16pt; }
+  .payslip-table th, .payslip-table td { padding: 4pt 6pt; height: 22pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .payslip-table tr.net td { font-size: 13pt; }
+  .payslip-thanks { margin-top: 28pt; font-size: 11pt; }
+  .payslip-issue { margin-top: 14pt; font-size: 10pt; }
+  .payslip-issue + .payslip-company { margin-top: 8pt; }
+  .payslip-company { margin-top: 18pt; font-size: 18pt; }
   .payslip-seal { width: 54pt; height: 54pt; right: calc(50% - 112pt); }
-  .payslip, .payslip-table { page-break-inside: avoid; break-inside: avoid; }
+  .payslip-table { page-break-inside: avoid; }
 }
 
 /* ---------- 증명서 ---------- */
