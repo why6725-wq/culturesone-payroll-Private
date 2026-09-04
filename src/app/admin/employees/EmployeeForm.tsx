@@ -22,6 +22,8 @@ export default function EmployeeForm() {
           <Field label="직급" name="position" />
           <Field label="입사일" name="hire_date" type="date" />
           <Field label="생년월일 (증명서용, 선택)" name="birth_date" type="date" />
+          <Field label="주소 (증명서용, 선택)" name="address" />
+          <Field label="담당업무 (경력증명서용, 선택)" name="duties" />
           <div>
             <label className="label">권한</label>
             <select name="role" className="input" defaultValue="EMPLOYEE">

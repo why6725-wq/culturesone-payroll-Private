@@ -54,8 +54,6 @@ export async function changePassword(_: AuthState, formData: FormData): Promise<
   const { error } = await supabase.auth.updateUser({ password });
   if (error) return { error: "비밀번호를 변경하지 못했습니다. 다시 시도하세요." };
 
-  // must_change_password 해제는 service role로 (profiles에 직원 UPDATE 정책 없음)
-  const { createAdminClient } = await import("@/lib/supabase/admin");
-  await createAdminClient().from("profiles").update({ must_change_password: false }).eq("id", user!.id);
+  await supabase.rpc("mark_password_changed");   // 본인 프로필의 must_change_password 해제 (DB 함수)
   redirect("/");
 }

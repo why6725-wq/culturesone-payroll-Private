@@ -2,14 +2,22 @@
 import { dateDot, won } from "@/lib/format";
 import type { CertSnapshot } from "@/lib/certificates";
 
-// 증명서 문서 (발급 시점 스냅샷으로 렌더링 — 이후 직원정보·양식이 바뀌어도 발급본은 그대로)
+// 컬처스원 실제 재직·경력증명서(HWP) 양식을 그대로 옮긴 문서. 발급 시점 스냅샷으로 렌더링.
+const K = (d: string | null | undefined) => {
+  if (!d) return null;
+  const [y, m, dd] = d.slice(0, 10).split("-");
+  return `${y}년 ${Number(m)}월 ${Number(dd)}일`;
+};
+
 export default function CertificateDocument({ s, type, issueNo, issuedAt, purpose }:
   { s: CertSnapshot; type: string; issueNo: string; issuedAt: string; purpose: string }) {
   const e = s.employee, c = s.company;
-  const period = `${dateDot(e.hire_date)} ~ ${type === "CAREER" && e.resign_date ? dateDot(e.resign_date) : "현재"}`;
   const issued = new Date(issuedAt);
-  const dateKo = `${issued.getFullYear()}년 ${issued.getMonth() + 1}월 ${issued.getDate()}일`;
+  const dateKo = `${issued.getFullYear()} 년 ${issued.getMonth() + 1} 월 ${issued.getDate()} 일`;
+  const isCareer = type === "CAREER";
+  const period = `${K(e.hire_date) ?? "        년    월    일"}부터  ~  ${isCareer && e.resign_date ? `${K(e.resign_date)}까지` : "현재까지"}`;
   const totals = s.income.reduce((a, r) => ({ e: a.e + r.total_earnings, d: a.d + r.total_deductions, n: a.n + r.net_pay }), { e: 0, d: 0, n: 0 });
+  const spaced = (t: string) => t.split("").join("  ");
 
   return (
     <div className="payslip cert">
@@ -17,16 +25,39 @@ export default function CertificateDocument({ s, type, issueNo, issuedAt, purpos
         <img src="/logo-h.png" alt={c.brand_name} className="payslip-logo" />
         <span className="cert-no">발급번호 {issueNo}</span>
       </div>
-      <h1 className="cert-title">{s.template.title}</h1>
+      <h1 className="cert-title">{spaced(s.template.title)}</h1>
 
+      {/* 인적사항 */}
       <table className="payslip-table cert-table">
-        <colgroup><col className="w-[22%]" /><col className="w-[28%]" /><col className="w-[22%]" /><col className="w-[28%]" /></colgroup>
+        <colgroup><col className="w-[12%]" /><col className="w-[18%]" /><col className="w-[25%]" /><col className="w-[20%]" /><col className="w-[25%]" /></colgroup>
         <tbody>
-          <tr className="sec top"><th colSpan={4}>인적사항</th></tr>
-          <tr><th>성 명</th><td className="info">{e.name}</td><th>생년월일</th><td className="info">{e.birth_date ? dateDot(e.birth_date) : "-"}</td></tr>
-          <tr><th>소 속</th><td className="info">{e.department ?? "-"}</td><th>직 위</th><td className="info">{e.position ?? "-"}</td></tr>
-          <tr><th>{type === "CAREER" ? "재직기간" : "재직기간"}</th><td className="info" colSpan={3}>{period}</td></tr>
-          <tr><th>용 도</th><td className="info" colSpan={3}>{purpose}</td></tr>
+          <tr>
+            <th rowSpan={2} className="vert-label">인 적<br />사 항</th>
+            <th>성    명</th><td className="info">{e.name}</td>
+            <th>생년월일</th><td className="info">{e.birth_date ? dateDot(e.birth_date) : ""}</td>
+          </tr>
+          <tr>
+            <th>주    소</th><td className="info" colSpan={3}>{e.address ?? ""}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {/* 재직사항 */}
+      <table className="payslip-table cert-table">
+        <colgroup><col className="w-[12%]" /><col className="w-[18%]" /><col className="w-[70%]" /></colgroup>
+        <tbody>
+          <tr><th rowSpan={3} className="vert-label">재 직<br />사 항</th><th>소    속</th><td className="info">{e.department ?? ""}</td></tr>
+          <tr><th>직    위</th><td className="info">{e.position ?? ""}</td></tr>
+          <tr><th>재직기간</th><td className="info">{period}</td></tr>
+        </tbody>
+      </table>
+
+      {/* 용도 / 담당업무 */}
+      <table className="payslip-table cert-table">
+        <colgroup><col className="w-[30%]" /><col className="w-[70%]" /></colgroup>
+        <tbody>
+          {isCareer && <tr><th>담당업무</th><td className="info">{e.duties ?? ""}</td></tr>}
+          <tr><th>용    도</th><td className="info">{purpose}</td></tr>
         </tbody>
       </table>
 
@@ -49,6 +80,7 @@ export default function CertificateDocument({ s, type, issueNo, issuedAt, purpos
       )}
 
       <p className="cert-statement">{s.template.statement}</p>
+      {isCareer && c.issuer_contact && <p className="cert-contact">발급 담당자 : {c.issuer_contact}</p>}
       <p className="cert-date">{dateKo}</p>
 
       <div className="cert-company">
@@ -58,7 +90,7 @@ export default function CertificateDocument({ s, type, issueNo, issuedAt, purpos
             {c.biz_no && <span>사업자등록번호 {c.biz_no}</span>}{c.address && <span>{c.address}</span>}{c.phone && <span>TEL {c.phone}</span>}
           </p>
         )}
-        <p className="cert-issuer">{c.issuer_title} {c.ceo_name}<img src="/seal.svg" alt="직인" className="cert-seal" /></p>
+        <p className="cert-issuer">{c.ceo_name ? spaced(c.ceo_name) : c.issuer_title}<span className="cert-in">(인)</span><img src="/seal.png" alt="직인" className="cert-seal" /></p>
       </div>
     </div>
   );

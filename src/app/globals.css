@@ -69,22 +69,27 @@ body { font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSy
 /* ---------- 증명서 ---------- */
 .cert-head { @apply flex items-start justify-between; }
 .cert-no { @apply text-[13px] text-muted; }
-.cert-title { @apply mb-10 mt-6 text-center text-[30px] font-bold tracking-[0.3em]; }
-.cert-table + .cert-table { margin-top: 28px; }
+.cert-title { @apply mb-10 mt-6 text-center text-[30px] font-bold; }
+.cert-table + .cert-table { margin-top: 22px; }
+.cert-table th { white-space: pre; }
+.cert-table th.vert-label { @apply bg-[#F4F4F4] leading-relaxed; }
+.cert-contact { @apply mt-4 text-right text-[14px]; }
+.cert-in { @apply ml-3 text-[16px] font-normal text-muted; }
 .cert-income th { @apply bg-[#F4F4F4] text-[14px]; }
 .cert-statement { @apply mt-14 text-center text-[17px]; }
 .cert-date { @apply mt-8 text-center text-[16px]; }
 .cert-company { @apply mt-14 text-center; }
 .cert-company-name { @apply text-[22px] font-bold; }
 .cert-company-meta { @apply mt-1 flex justify-center gap-4 text-[12px] text-muted; }
-.cert-issuer { @apply relative mt-4 inline-block text-[19px] font-semibold; padding-right: 76px; }
-.cert-seal { position: absolute; right: 0; top: 50%; width: 68px; height: 68px; transform: translateY(-50%); mix-blend-mode: multiply; opacity: .9; }
+.cert-issuer { @apply relative mt-4 inline-block text-[19px] font-semibold; padding-right: 80px; }
+.cert-seal { position: absolute; right: 14px; top: 50%; width: 76px; height: 76px; transform: translateY(-50%); mix-blend-mode: multiply; opacity: .92; }
 @media print {
   .cert-title { font-size: 24pt; margin: 14pt 0 24pt; }
   .cert-statement { margin-top: 36pt; font-size: 13pt; }
   .cert-date { margin-top: 20pt; font-size: 12pt; }
   .cert-company { margin-top: 36pt; }
   .cert-company-name { font-size: 17pt; }
-  .cert-issuer { font-size: 15pt; padding-right: 60pt; }
-  .cert-seal { width: 52pt; height: 52pt; }
+  .cert-issuer { font-size: 15pt; padding-right: 64pt; }
+  .cert-seal { width: 58pt; height: 58pt; right: 10pt; }
+  .cert-contact { margin-top: 10pt; font-size: 10.5pt; }
 }

@@ -17,6 +17,7 @@ export default function SettingsForms({ company, templates }: { company: any; te
         <F label="발급자 직함" name="issuer_title" v={company.issuer_title} />
         <F label="사업자등록번호" name="biz_no" v={company.biz_no} ph="000-00-00000" />
         <F label="전화번호" name="phone" v={company.phone} />
+        <F label="발급 담당자 (경력증명서 표시, 선택)" name="issuer_contact" v={company.issuer_contact} ph="홍길동 사원(010-0000-0000)" />
         <div className="sm:col-span-2"><F label="주소" name="address" v={company.address} /></div>
         {cs.error && <p className="text-[13px] text-red-600 sm:col-span-2">{cs.error}</p>}
         {cs.ok && <p className="text-[13px] text-emerald-800 sm:col-span-2">{cs.ok}</p>}

@@ -74,7 +74,7 @@ export default function PayslipDocument({ d }: { d: PayslipData }) {
       )}
       <p className="payslip-company">
         주식회사 컬처스원
-        {d.seal && <img src="/seal.svg" /* 직인은 인쇄 정확도를 위해 원본 그대로 사용 */ // eslint-disable-line @next/next/no-img-element
+        {d.seal && <img src="/seal.png" /* 직인은 인쇄 정확도를 위해 원본 그대로 사용 */ // eslint-disable-line @next/next/no-img-element
            alt="직인" className="payslip-seal" />}
       </p>
     </div>

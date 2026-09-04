@@ -22,7 +22,7 @@ export async function issueDirect(_: { error?: string; ok?: string }, form: Form
 }
 export async function updateCompany(_: { error?: string; ok?: string }, form: FormData) {
   const p: Record<string, string> = {};
-  for (const k of ["company_name", "brand_name", "ceo_name", "biz_no", "address", "phone", "issuer_title"]) p[k] = String(form.get(k) ?? "").trim();
+  for (const k of ["company_name", "brand_name", "ceo_name", "biz_no", "address", "phone", "issuer_title", "issuer_contact"]) p[k] = String(form.get(k) ?? "").trim();
   const r = await rpc("admin_update_company", { p });
   revalidatePath("/admin/settings");
   return r.error ? { error: r.error } : { ok: "회사 정보를 저장했습니다." };

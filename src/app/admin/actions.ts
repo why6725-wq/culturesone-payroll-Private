@@ -26,12 +26,14 @@ export async function createEmployee(_: ActionState, form: FormData): Promise<Ac
   const position = String(form.get("position") ?? "").trim() || null;
   const hire_date = String(form.get("hire_date") ?? "") || null;
   const birth_date = String(form.get("birth_date") ?? "") || null;
+  const address = String(form.get("address") ?? "").trim() || null;
+  const duties = String(form.get("duties") ?? "").trim() || null;
   const role = form.get("role") === "ADMIN" ? "ADMIN" : "EMPLOYEE";
   if (!name || !email) return { error: "이름과 이메일은 필수입니다." };
 
   const sb = createAdminClient();
   const { data: emp, error: e1 } = await sb.from("employees")
-    .insert({ name, email, department, position, hire_date, birth_date }).select("id").single();
+    .insert({ name, email, department, position, hire_date, birth_date, address, duties }).select("id").single();
   if (e1) return { error: e1.code === "23505" ? "이미 등록된 이메일입니다." : e1.message };
 
   // 임시 비밀번호: 무작위 12자. 코드에 고정값 없음.
