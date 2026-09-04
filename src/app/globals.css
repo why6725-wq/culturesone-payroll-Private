@@ -1,0 +1,90 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html, body { @apply bg-[#F5F6F8] text-ink antialiased; }
+body { font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", sans-serif; }
+
+.input {
+  @apply w-full rounded-md border border-line bg-white px-3 py-2.5 text-[15px] outline-none
+         focus:border-navy focus:ring-2 focus:ring-navy/15 disabled:bg-gray-50;
+}
+.btn { @apply inline-flex items-center justify-center rounded-md px-4 py-2.5 text-[15px] font-medium transition-colors disabled:opacity-50; }
+.btn-primary { @apply btn bg-navy text-white hover:bg-[#0D0A2C]; }
+.btn-outline { @apply btn border border-line bg-white text-ink hover:bg-gray-50; }
+.label { @apply mb-1.5 block text-[13px] text-muted; }
+.card { @apply rounded-lg border border-line bg-white; }
+
+/* ---------- 급여명세서 문서 (원본 엑셀 양식 재현) ---------- */
+.payslip { @apply bg-white text-ink; font-size: 16px; }
+.payslip-logo { height: 34px; width: auto; margin-bottom: 18px; }
+.payslip-title { @apply mb-8 text-center text-[24px] font-bold; }
+.payslip-table { @apply w-full border-collapse; }
+.payslip-table th, .payslip-table td { border: 1px dotted #8A8F96; padding: 8px 10px; height: 38px; }
+.payslip-table th { @apply text-center font-semibold; white-space: nowrap; }
+.payslip-table td { @apply text-left; }
+.payslip-table td.num { @apply text-right tabular-nums; }
+.payslip-table td.info { @apply text-center; }
+.payslip-table tr.sec th { @apply bg-[#EDEDED] font-bold; }
+.payslip-table tr.top th { border-top: 2.5px solid #1F2933; }
+.payslip-table tr.total th, .payslip-table tr.net th { @apply bg-[#EDEDED] font-bold; }
+.payslip-table tr.net td { @apply text-[19px] font-bold; border-bottom: 2.5px solid #1F2933; }
+.payslip-table tr.net th { border-bottom: 2.5px solid #1F2933; }
+.payslip-table th.vert { @apply align-middle font-bold; writing-mode: vertical-rl; letter-spacing: .35em; text-orientation: upright; padding: 0; width: 38px; }
+.payslip-note { @apply mt-6 text-[14px] text-muted whitespace-pre-wrap; }
+.payslip-thanks { @apply mt-20 text-center text-[17px]; }
+.payslip-company { @apply relative mt-12 text-center text-[26px] font-bold; }
+.payslip-issue { @apply mt-10 flex justify-center gap-8 text-[14px]; }
+.payslip-issue + .payslip-company { @apply mt-6; }
+.payslip-seal { position: absolute; width: 72px; height: 72px; right: calc(50% - 150px); top: 50%; transform: translateY(-50%); mix-blend-mode: multiply; opacity: .9; }
+
+/* 모바일: 문서를 축소해 PC/인쇄물과 동일한 비율 유지 (PayslipScaler) */
+.payslip-scaler { width: 100%; overflow: hidden; }
+.payslip-scaler-inner { transform-origin: top left; }
+
+/* ---------- 인쇄: 문서만 A4 1장 ---------- */
+@page { size: A4 portrait; margin: 15mm 14mm; }
+@media print {
+  html, body { background: #fff !important; }
+  header, nav, .no-print { display: none !important; }
+  main { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+  .card { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; }
+  .payslip-scaler { height: auto !important; overflow: visible; }
+  .payslip-scaler-inner { width: auto !important; transform: none !important; }
+  .payslip { font-size: 12pt; }
+  .payslip-logo { height: 26pt; margin-bottom: 10pt; }
+  .payslip-title { font-size: 18pt; margin-bottom: 20pt; }
+  .payslip-table th, .payslip-table td { padding: 5pt 7pt; height: 25pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .payslip-table tr.net td { font-size: 14pt; }
+  .payslip-thanks { margin-top: 36pt; font-size: 12pt; }
+  .payslip-company { margin-top: 22pt; font-size: 19pt; }
+  .payslip-issue { margin-top: 20pt; font-size: 10.5pt; }
+  .payslip-issue + .payslip-company { margin-top: 12pt; }
+  .payslip-seal { width: 54pt; height: 54pt; right: calc(50% - 112pt); }
+  .payslip, .payslip-table { page-break-inside: avoid; break-inside: avoid; }
+}
+
+/* ---------- 증명서 ---------- */
+.cert-head { @apply flex items-start justify-between; }
+.cert-no { @apply text-[13px] text-muted; }
+.cert-title { @apply mb-10 mt-6 text-center text-[30px] font-bold tracking-[0.3em]; }
+.cert-table + .cert-table { margin-top: 28px; }
+.cert-income th { @apply bg-[#F4F4F4] text-[14px]; }
+.cert-statement { @apply mt-14 text-center text-[17px]; }
+.cert-date { @apply mt-8 text-center text-[16px]; }
+.cert-company { @apply mt-14 text-center; }
+.cert-company-name { @apply text-[22px] font-bold; }
+.cert-company-meta { @apply mt-1 flex justify-center gap-4 text-[12px] text-muted; }
+.cert-issuer { @apply relative mt-4 inline-block text-[19px] font-semibold; padding-right: 76px; }
+.cert-seal { position: absolute; right: 0; top: 50%; width: 68px; height: 68px; transform: translateY(-50%); mix-blend-mode: multiply; opacity: .9; }
+@media print {
+  .cert-title { font-size: 24pt; margin: 14pt 0 24pt; }
+  .cert-statement { margin-top: 36pt; font-size: 13pt; }
+  .cert-date { margin-top: 20pt; font-size: 12pt; }
+  .cert-company { margin-top: 36pt; }
+  .cert-company-name { font-size: 17pt; }
+  .cert-issuer { font-size: 15pt; padding-right: 60pt; }
+  .cert-seal { width: 52pt; height: 52pt; }
+}
