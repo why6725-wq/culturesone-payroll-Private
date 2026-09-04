@@ -7,7 +7,8 @@ const ACTION_LABEL: Record<string, string> = {
   STATEMENT_CONFIRM: "확정", STATEMENT_CORRECT: "정정", STATEMENT_CANCEL: "취소", STATEMENT_VOID: "폐기",
   EXCEL_UPLOAD: "엑셀 업로드", ITEM_TYPE_CREATE: "급여 항목 추가", ITEM_TYPE_UPDATE: "급여 항목 수정",
   STATEMENT_PRINT_SEALED: "날인본 출력",
-  CERT_REQUEST: "증명서 신청", CERT_ISSUE: "증명서 발급", CERT_REJECT: "증명서 반려", CERT_REVOKE: "증명서 폐기", CERT_PRINT: "증명서 출력", SETTINGS_UPDATE: "설정 변경"
+  CERT_REQUEST: "증명서 신청", CERT_ISSUE: "증명서 발급", CERT_REJECT: "증명서 반려", CERT_REVOKE: "증명서 폐기", CERT_PRINT: "증명서 출력", SETTINGS_UPDATE: "설정 변경",
+  DOC_UPLOAD: "서류 업로드", DOC_DELETE: "서류 삭제", DOC_DOWNLOAD: "서류 열람"
 };
 
 function detailText(a: string, d: any) {
@@ -18,6 +19,7 @@ function detailText(a: string, d: any) {
   if (a === "STATEMENT_CANCEL") return `사유: ${d.reason}`;
   if (a === "STATEMENT_CONFIRM") return `v${d.version} · 실지급액 ${Number(d.net_pay).toLocaleString()}`;
   if (a === "EMPLOYEE_CREATE") return `${d.email} (${d.role})`;
+  if (a.startsWith("DOC_")) return [d.title, d.category, d.reason ? `사유: ${d.reason}` : null].filter(Boolean).join(" · ");
   if (a.startsWith("CERT_")) return [d.issue_no, d.purpose ? `용도: ${d.purpose}` : null, d.reason ? `사유: ${d.reason}` : null].filter(Boolean).join(" · ");
   return "";
 }

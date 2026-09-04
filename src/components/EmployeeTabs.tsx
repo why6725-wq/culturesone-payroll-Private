@@ -7,7 +7,8 @@ export default function EmployeeTabs({ certBadge = 0 }: { certBadge?: number }) 
   const path = usePathname();
   const tabs = [
     { href: "/", label: "내 급여명세서", active: path === "/" },
-    { href: "/certificates", label: "증명서 발급", active: path.startsWith("/certificates"), badge: certBadge }
+    { href: "/certificates", label: "증명서 발급", active: path.startsWith("/certificates"), badge: certBadge },
+    { href: "/documents", label: "서류함", active: path.startsWith("/documents") }
   ];
   return (
     <nav className="no-print border-b border-line bg-white">

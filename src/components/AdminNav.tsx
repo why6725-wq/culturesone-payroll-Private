@@ -9,7 +9,9 @@ export default function AdminNav({ certPending = 0 }: { certPending?: number }) 
     { href: "/admin", label: "월별 급여", active: path === "/admin" || path.startsWith("/admin/upload") || path.startsWith("/admin/entry") },
     { href: "/admin/employees", label: "직원 관리", active: path.startsWith("/admin/employees") },
     { href: "/admin/certificates", label: "증명서", active: path.startsWith("/admin/certificates"), badge: certPending },
+    { href: "/admin/documents", label: "서류함", active: path.startsWith("/admin/documents") },
     { href: "/admin/logs", label: "처리 이력", active: path.startsWith("/admin/logs") },
+    { href: "/admin/usage", label: "이용 현황", active: path.startsWith("/admin/usage") },
     { href: "/admin/settings", label: "설정", active: path.startsWith("/admin/settings") }
   ];
   return (
