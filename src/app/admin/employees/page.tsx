@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { dateDot } from "@/lib/format";
@@ -39,7 +40,7 @@ export default async function EmployeesPage() {
                   <td className="px-4 py-3">{e.department ?? "-"} / {e.position ?? "-"}</td>
                   <td className="hidden px-4 py-3 sm:table-cell">{dateDot(e.hire_date)}</td>
                   <td className="px-4 py-3">{active ? "재직" : "퇴사"} / {p ? (p.is_active ? "활성" : "비활성") : "계정없음"}</td>
-                  <td className="px-4 py-3 text-right"><ActiveToggle id={e.id} active={active} name={e.name} /></td>
+                  <td className="px-4 py-3 text-right whitespace-nowrap"><Link href={`/admin/employees/${e.id}`} className="mr-3 text-[13px] text-navy hover:underline">수정</Link><ActiveToggle id={e.id} active={active} name={e.name} /></td>
                 </tr>
               );
             })}

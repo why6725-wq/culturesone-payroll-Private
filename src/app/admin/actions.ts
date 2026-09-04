@@ -43,6 +43,37 @@ export async function createEmployee(_: ActionState, form: FormData): Promise<Ac
   return { ok: `${name} 등록 완료. 임시 비밀번호: ${pw} (직원에게 전달하세요. 최초 로그인 시 변경됩니다)` };
 }
 
+// ---------- 직원 정보 수정 ----------
+export async function updateEmployee(_: ActionState, form: FormData): Promise<ActionState> {
+  const r = await rpc("admin_update_employee", {
+    p_employee_id: String(form.get("id") ?? ""),
+    p_name: String(form.get("name") ?? "").trim(),
+    p_department: String(form.get("department") ?? "").trim() || null,
+    p_position: String(form.get("position") ?? "").trim() || null,
+    p_hire_date: String(form.get("hire_date") ?? "") || null,
+    p_birth_date: String(form.get("birth_date") ?? "") || null,
+    p_address: String(form.get("address") ?? "").trim() || null,
+    p_duties: String(form.get("duties") ?? "").trim() || null,
+    p_role: form.get("role") === "ADMIN" ? "ADMIN" : "EMPLOYEE"
+  });
+  if (r.error) return { error: clean(r.error) };
+  revalidatePath("/admin/employees");
+  return { ok: "저장했습니다." };
+}
+
+// ---------- 급여 항목 관리 ----------
+export async function addItemType(_: ActionState, form: FormData): Promise<ActionState> {
+  const r = await rpc("admin_add_item_type", { p_name: String(form.get("name") ?? "").trim(), p_category: form.get("category") === "DEDUCTION" ? "DEDUCTION" : "EARNING" });
+  if (r.error) return { error: clean(r.error) };
+  revalidatePath("/admin/settings");
+  return { ok: "항목을 추가했습니다. 엑셀 템플릿에도 같은 이름의 컬럼이 생깁니다." };
+}
+export async function updateItemType(id: string, name: string, isActive: boolean, sortOrder: number) {
+  const r = await rpc("admin_update_item_type", { p_id: id, p_name: name, p_is_active: isActive, p_sort_order: sortOrder });
+  revalidatePath("/admin/settings");
+  return r;
+}
+
 // ---------- 퇴사 처리 / 재직 복구 ----------
 export async function setEmployeeActive(employeeId: string, active: boolean) {
   await rpc("admin_set_employee_active", { p_employee_id: employeeId, p_active: active });
