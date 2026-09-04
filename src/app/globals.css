@@ -16,6 +16,10 @@ body { font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSy
 .btn-outline { @apply btn border border-line bg-white text-ink hover:bg-gray-50; }
 .label { @apply mb-1.5 block text-[13px] text-muted; }
 .card { @apply rounded-lg border border-line bg-white; }
+/* 데이터 표: 좁은 화면에서는 가로 스크롤, 셀 안 줄바꿈 금지 */
+.table-wrap { @apply -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0; }
+.table-wrap table { @apply min-w-[640px]; }
+.table-wrap th, .table-wrap td { white-space: nowrap; }
 
 /* ---------- 급여명세서 문서 (원본 엑셀 양식 재현) ---------- */
 .payslip { @apply bg-white text-ink; font-size: 16px; }

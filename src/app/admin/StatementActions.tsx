@@ -10,7 +10,7 @@ export default function StatementActions({ id, status }: { id: string; status: s
   const run = (fn: () => Promise<{ error?: string }>) => start(async () => { const r = await fn(); setErr(r.error ?? ""); if (!r.error) setCorrecting(false); });
 
   if (status === "REGISTERED" || status === "DRAFT") return (
-    <span className="flex justify-end gap-3 text-[13px]">
+    <span className="flex justify-end gap-3 whitespace-nowrap text-[13px]">
       {err && <span className="text-red-600">{err}</span>}
       <button disabled={pending} onClick={() => confirm("이 명세서를 확정할까요? 확정하면 직원에게 보입니다.") && run(() => confirmStatement(id))} className="text-navy hover:underline disabled:opacity-50">확정</button>
       <button disabled={pending} onClick={() => { const r = prompt("취소 사유를 입력하세요."); if (r) run(() => cancelStatement(id, r)); }} className="text-muted hover:underline disabled:opacity-50">취소</button>
@@ -18,7 +18,7 @@ export default function StatementActions({ id, status }: { id: string; status: s
   );
   if (status === "CONFIRMED") return (
     <>
-      <span className="flex justify-end gap-3 text-[13px]">
+      <span className="flex justify-end gap-3 whitespace-nowrap text-[13px]">
         {err && <span className="text-red-600">{err}</span>}
         <button disabled={pending} onClick={() => setCorrecting(true)} className="text-muted hover:underline disabled:opacity-50">정정</button>
       </span>

@@ -34,7 +34,7 @@ export default async function LogsPage() {
       <main className="px-4 py-6 md:px-8">
         <h1 className="text-xl font-semibold">처리 이력</h1>
         <p className="mt-1 text-[14px] text-muted">등록·확정·정정·취소·날인본 출력 기록. 수정하거나 삭제할 수 없습니다. 최근 300건.</p>
-        <table className="card mt-5 w-full text-[13px]">
+        <div className="table-wrap mt-5"><table className="card w-full text-[13px]">
           <thead className="text-left text-[12px] text-muted">
             <tr className="border-b border-line">
               <th className="px-3 py-2 font-normal">일시</th><th className="px-3 py-2 font-normal">처리자</th>
@@ -53,7 +53,7 @@ export default async function LogsPage() {
             ))}
             {(data ?? []).length === 0 && <tr><td colSpan={5} className="px-3 py-8 text-center text-muted">기록이 없습니다.</td></tr>}
           </tbody>
-        </table>
+        </table></div>
       </main>
     </>
   );

@@ -50,7 +50,7 @@ export default async function AdminCertificatesPage() {
         <DirectIssueForm employees={emps ?? []} />
 
         <h2 className="mt-8 text-[15px] font-semibold">발급 · 처리 내역</h2>
-        <table className="card mt-2 w-full text-[13px]">
+        <div className="table-wrap mt-2"><table className="card w-full text-[13px]">
           <thead className="text-left text-[12px] text-muted"><tr className="border-b border-line">
             <th className="px-3 py-2 font-normal">직원</th><th className="px-3 py-2 font-normal">종류</th><th className="px-3 py-2 font-normal">상태</th>
             <th className="hidden px-3 py-2 font-normal sm:table-cell">발급번호</th><th className="hidden px-3 py-2 font-normal sm:table-cell">출력</th><th className="px-3 py-2" /></tr></thead>
@@ -70,7 +70,7 @@ export default async function AdminCertificatesPage() {
             ))}
             {others.length === 0 && <tr><td colSpan={6} className="px-3 py-6 text-center text-muted">내역이 없습니다.</td></tr>}
           </tbody>
-        </table>
+        </table></div>
       </main>
     </>
   );

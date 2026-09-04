@@ -48,7 +48,7 @@ export default function StatementTable({ rows, y, m }: { rows: Row[]; y: number;
           {msg && <span className="text-muted">{msg}</span>}
         </div>
       )}
-      <table className="card mt-3 w-full text-[14px]">
+      <div className="table-wrap mt-3"><table className="card w-full text-[14px]">
         <thead className="text-left text-[12px] text-muted">
           <tr className="border-b border-line">
             <th className="w-8 px-3 py-2.5">{selectable.length > 0 && <input type="checkbox" checked={allChecked} onChange={toggleAll} className="accent-navy" aria-label="전체 선택" />}</th>
@@ -86,7 +86,7 @@ export default function StatementTable({ rows, y, m }: { rows: Row[]; y: number;
                 <td className="hidden px-3 py-3 text-right tabular-nums sm:table-cell">{r.net_pay != null ? won(r.net_pay) : "-"}</td>
                 <td className="hidden px-3 py-3 text-muted sm:table-cell">{r.first_viewed_at ? dateDot(r.first_viewed_at) : "-"}</td>
                 <td className="px-3 py-3">
-                  <span className="flex items-center justify-end gap-3 text-[13px]">
+                  <span className="flex items-center justify-end gap-3 whitespace-nowrap text-[13px]">
                     {editable && <Link href={`/admin/entry?y=${y}&m=${m}&e=${r.employee_id}`} className="text-navy hover:underline">수정</Link>}
                     {r.statement_id
                       ? <StatementActions id={r.statement_id} status={st} />
@@ -97,7 +97,7 @@ export default function StatementTable({ rows, y, m }: { rows: Row[]; y: number;
             );
           })}
         </tbody>
-      </table>
+      </table></div>
     </>
   );
 }

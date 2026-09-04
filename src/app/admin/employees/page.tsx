@@ -17,7 +17,7 @@ export default async function EmployeesPage() {
       <main className="px-4 py-6 md:px-8">
         <h1 className="text-xl font-semibold">직원 관리</h1>
         <EmployeeForm />
-        <table className="card mt-6 w-full text-[14px]">
+        <div className="table-wrap mt-6"><table className="card w-full text-[14px]">
           <thead className="text-left text-[12px] text-muted">
             <tr className="border-b border-line">
               <th className="px-4 py-2.5 font-normal">이름</th>
@@ -44,7 +44,7 @@ export default async function EmployeesPage() {
               );
             })}
           </tbody>
-        </table>
+        </table></div>
       </main>
     </>
   );
