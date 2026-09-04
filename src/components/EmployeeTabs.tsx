@@ -15,9 +15,9 @@ export default function EmployeeTabs({ certBadge = 0 }: { certBadge?: number }) 
       <div className="mx-auto flex max-w-4xl px-4">
         {tabs.map((t) => (
           <Link key={t.href} href={t.href}
-            className={`relative -mb-px flex-1 py-3.5 text-center text-[15px] sm:flex-none sm:px-6 ${t.active ? "border-b-2 border-navy font-semibold text-navy" : "text-muted hover:text-ink"}`}>
+            className={`relative -mb-px flex-1 py-3.5 text-center text-[15px] sm:flex-none sm:px-6 ${t.active ? "border-b-2 border-gold font-semibold text-navy" : "text-muted hover:text-ink"}`}>
             {t.label}
-            {!!t.badge && <span className="ml-1.5 inline-flex min-w-[18px] items-center justify-center rounded-full bg-navy px-1.5 text-[11px] font-medium text-white">{t.badge}</span>}
+            {!!t.badge && <span className="ml-1.5 inline-flex min-w-[18px] items-center justify-center rounded-full bg-gold px-1.5 text-[11px] font-semibold text-navy">{t.badge}</span>}
           </Link>
         ))}
       </div>

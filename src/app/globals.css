@@ -12,8 +12,9 @@ body { font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSy
          focus:border-navy focus:ring-2 focus:ring-navy/15 disabled:bg-gray-50;
 }
 .btn { @apply inline-flex items-center justify-center rounded-md px-4 py-2.5 text-[15px] font-medium transition-colors disabled:opacity-50; }
-.btn-primary { @apply btn bg-navy text-white hover:bg-[#0D0A2C]; }
+.btn-primary { @apply btn bg-navy text-white hover:bg-[#0B1233]; }
 .btn-outline { @apply btn border border-line bg-white text-ink hover:bg-gray-50; }
+.btn-gold { @apply btn bg-gold text-navy hover:bg-[#E9A20A]; }
 .label { @apply mb-1.5 block text-[13px] text-muted; }
 .card { @apply rounded-lg border border-line bg-white; }
 /* 데이터 표: 좁은 화면에서는 가로 스크롤, 셀 안 줄바꿈 금지 */

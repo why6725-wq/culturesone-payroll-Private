@@ -6,7 +6,7 @@ import { bulkStatements } from "./actions";
 import { STATUS_LABEL, dateDot, won } from "@/lib/format";
 
 const DOT: Record<string, string> = {
-  NONE: "bg-red-500", DRAFT: "bg-gray-400", REGISTERED: "bg-amber-400",
+  NONE: "bg-red-500", DRAFT: "bg-gray-400", REGISTERED: "bg-gold",
   CONFIRMED: "bg-emerald-500", CORRECTED: "bg-blue-400", CANCELLED: "bg-gray-300", VOID: "bg-gray-300"
 };
 

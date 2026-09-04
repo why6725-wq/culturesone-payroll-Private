@@ -11,7 +11,8 @@ const config: Config = {
         ink: "#1F2933",
         muted: "#6B7280",
         line: "#D9DEE3",
-        navy: "#14103F",
+        navy: "#101A46",
+        gold: "#FEB10F",
         paper: "#FFFFFF"
       }
     }

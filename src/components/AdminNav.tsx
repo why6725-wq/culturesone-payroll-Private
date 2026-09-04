@@ -20,9 +20,9 @@ export default function AdminNav({ certPending = 0 }: { certPending?: number }) 
         {items.map((i) => (
           <li key={i.href} className="shrink-0">
             <Link href={i.href}
-              className={`flex items-center gap-2 whitespace-nowrap px-3 py-3 text-[14px] md:rounded-md md:py-2 ${i.active ? "border-b-2 border-navy font-semibold text-navy md:border-b-0 md:bg-white md:shadow-sm" : "text-muted hover:text-ink"}`}>
+              className={`flex items-center gap-2 whitespace-nowrap px-3 py-3 text-[14px] md:rounded-md md:py-2 ${i.active ? "border-b-2 border-gold font-semibold text-navy md:border-b-0 md:border-l-4 md:border-l-gold md:bg-white md:shadow-sm" : "text-muted hover:text-ink"}`}>
               {i.label}
-              {!!i.badge && <span className="inline-flex min-w-[18px] items-center justify-center rounded-full bg-red-500 px-1.5 text-[11px] font-medium text-white">{i.badge}</span>}
+              {!!i.badge && <span className="inline-flex min-w-[18px] items-center justify-center rounded-full bg-gold px-1.5 text-[11px] font-semibold text-navy">{i.badge}</span>}
             </Link>
           </li>
         ))}

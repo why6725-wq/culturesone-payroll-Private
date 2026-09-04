@@ -11,7 +11,7 @@ export default function AppHeader({ user }: { user: SessionUser }) {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         <Link href={isAdmin ? "/admin" : "/"} className="flex items-center gap-3">
           <Logo className="h-8" />
-          {isAdmin && <span className="rounded bg-navy px-1.5 py-0.5 text-[11px] font-medium text-white">ADMIN</span>}
+          {isAdmin && <span className="rounded bg-gold px-1.5 py-0.5 text-[11px] font-semibold text-navy">ADMIN</span>}
         </Link>
         <nav className="flex items-center gap-4 text-[13px]">
           <span className="text-muted">{user.employee?.name ?? user.email}</span>

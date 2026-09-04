@@ -21,7 +21,7 @@ export default function PayslipDocument({ d }: { d: PayslipData }) {
 
   return (
     <div className="payslip">
-      <img src="/logo-h.png" alt="NineMC" className="payslip-logo" /> {/* eslint-disable-line @next/next/no-img-element */}
+      <img src="/logo-h.png" alt="CULTURES ONE" className="payslip-logo" /> {/* eslint-disable-line @next/next/no-img-element */}
       <h1 className="payslip-title">{d.pay_year}년 {d.pay_month}월 급여명세서</h1>
 
       <table className="payslip-table">
