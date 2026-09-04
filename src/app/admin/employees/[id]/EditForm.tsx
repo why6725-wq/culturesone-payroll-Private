@@ -25,7 +25,6 @@ export default function EditForm({ e }: { e: any }) {
         <select id="role" name="role" className="input" defaultValue={e.role}>
           <option value="EMPLOYEE">일반 직원</option><option value="ADMIN">관리자 (경리담당)</option>
         </select>
-        <p className="mt-1 text-[12px] text-muted">관리자로 바꾸면 다음 로그인 때 2단계 인증 등록이 요구됩니다.</p>
       </div>
       {state.error && <p className="text-[13px] text-red-600 sm:col-span-2">{state.error}</p>}
       {state.ok && <p className="rounded-md bg-emerald-50 px-3 py-2 text-[13px] text-emerald-800 sm:col-span-2">{state.ok}</p>}

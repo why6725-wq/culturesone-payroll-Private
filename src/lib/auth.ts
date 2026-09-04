@@ -43,15 +43,8 @@ export async function requireUser(): Promise<SessionUser> {
   return u;
 }
 
-// 관리자: 2단계 인증(TOTP) 필수. 미등록이면 설정 화면으로, 등록했지만 이번 세션에서 미통과면 인증 화면으로.
 export async function requireAdmin(): Promise<SessionUser> {
   const u = await requireUser();
   if (u.role !== "ADMIN") redirect("/");
-  const supabase = createClient();
-  const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-  const { data: factors } = await supabase.auth.mfa.listFactors();
-  const enrolled = (factors?.totp ?? []).some((f) => f.status === "verified");
-  if (!enrolled) redirect("/mfa?setup=1");
-  if (aal?.currentLevel !== "aal2") redirect("/mfa");
   return u;
 }
