@@ -2,14 +2,8 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import MonthPicker from "@/components/MonthPicker";
-import StatementActions from "./StatementActions";
+import StatementTable from "./StatementTable";
 import ConfirmMonthButton from "./ConfirmMonthButton";
-import { STATUS_LABEL, dateDot, won } from "@/lib/format";
-
-const DOT: Record<string, string> = {
-  NONE: "bg-red-500", DRAFT: "bg-gray-400", REGISTERED: "bg-amber-400",
-  CONFIRMED: "bg-emerald-500", CORRECTED: "bg-blue-400", CANCELLED: "bg-gray-300", VOID: "bg-gray-300"
-};
 
 export default async function AdminHome({ searchParams }: { searchParams: { y?: string; m?: string } }) {
   const user = await requireAdmin();
@@ -58,43 +52,7 @@ export default async function AdminHome({ searchParams }: { searchParams: { y?: 
           <span className="ml-auto"><ConfirmMonthButton year={y} month={m} count={toConfirm} /></span>
         </div>
 
-        <table className="card mt-6 w-full text-[14px]">
-          <thead className="text-left text-[12px] text-muted">
-            <tr className="border-b border-line">
-              <th className="px-4 py-2.5 font-normal">직원</th>
-              <th className="px-4 py-2.5 font-normal">부서</th>
-              <th className="px-4 py-2.5 font-normal">상태</th>
-              <th className="hidden px-4 py-2.5 text-right font-normal sm:table-cell">실지급액</th>
-              <th className="hidden px-4 py-2.5 font-normal sm:table-cell">최초열람</th>
-              <th className="px-4 py-2.5" />
-            </tr>
-          </thead>
-          <tbody>
-            {rows.length === 0 && <tr><td colSpan={6} className="px-4 py-8 text-center text-muted">재직 중인 직원이 없습니다. 먼저 직원을 등록하세요.</td></tr>}
-            {rows.map((r) => {
-              const st = r.status ?? "NONE";
-              return (
-                <tr key={r.employee_id} className="border-b border-line last:border-0">
-                  <td className="px-4 py-3">
-                    {r.statement_id ? <Link href={`/payroll/${r.statement_id}`} className="hover:underline">{r.name}</Link> : r.name}
-                    <span className="ml-2 hidden text-[12px] text-muted sm:inline">{r.email}</span>
-                  </td>
-                  <td className="px-4 py-3 text-muted">{r.department ?? "-"}</td>
-                  <td className="px-4 py-3"><span className={`mr-1.5 inline-block h-2 w-2 rounded-full ${DOT[st]}`} />{STATUS_LABEL[st]}{r.version > 1 && <span className="ml-1 text-[11px] text-muted">v{r.version}</span>}
-                    {st === "REGISTERED" && r.version > 1 && (
-                      <span className={`block text-[11px] ${r.correction_expected_at && new Date(r.correction_expected_at) < new Date() ? "text-red-600" : "text-muted"}`}>
-                        정정 중{r.correction_expected_at ? ` · 예정 ${new Date(r.correction_expected_at).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit" })}` : ""}
-                        {r.correction_expected_at && new Date(r.correction_expected_at) < new Date() ? " (지남)" : ""}
-                      </span>
-                    )}</td>
-                  <td className="hidden px-4 py-3 text-right tabular-nums sm:table-cell">{r.net_pay != null ? won(r.net_pay) : "-"}</td>
-                  <td className="hidden px-4 py-3 text-muted sm:table-cell">{r.first_viewed_at ? dateDot(r.first_viewed_at) : "-"}</td>
-                  <td className="px-4 py-3">{r.statement_id ? <StatementActions id={r.statement_id} status={st} /> : <Link href={`/admin/entry?y=${y}&m=${m}&e=${r.employee_id}`} className="block text-right text-[13px] text-muted hover:underline">입력</Link>}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <StatementTable rows={rows} y={y} m={m} />
       </main>
     </>
   );

@@ -7,12 +7,13 @@ import { won } from "@/lib/format";
 
 type Item = { id: string; name: string; category: "EARNING" | "DEDUCTION"; sort_order: number };
 
-function Submit() { const { pending } = useFormStatus(); return <button className="btn-primary" disabled={pending}>{pending ? "저장 중..." : "등록완료로 저장"}</button>; }
+function Submit() { const { pending } = useFormStatus(); return <button className="btn-primary" disabled={pending}>{pending ? "저장 중..." : "저장 (등록완료 상태)"}</button>; }
 
-export default function EntryForm({ year, month, defaultEmployee, defaultPayDate, employees, items }:
-  { year: number; month: number; defaultEmployee: string; defaultPayDate: string; employees: { id: string; name: string; department: string | null }[]; items: Item[] }) {
+export default function EntryForm({ year, month, defaultEmployee, defaultPayDate, defaultNote = "", defaultItems = {}, lockEmployee = false, employees, items }:
+  { year: number; month: number; defaultEmployee: string; defaultPayDate: string; defaultNote?: string; defaultItems?: Record<string, number>; lockEmployee?: boolean;
+    employees: { id: string; name: string; department: string | null }[]; items: Item[] }) {
   const [state, action] = useFormState<ActionState, FormData>(saveManualStatement, {});
-  const [vals, setVals] = useState<Record<string, string>>({});
+  const [vals, setVals] = useState<Record<string, string>>(() => Object.fromEntries(Object.entries(defaultItems).filter(([, v]) => v).map(([k, v]) => [k, v.toLocaleString("ko-KR")])));
   const num = (s?: string) => Number((s ?? "").replace(/[,\s]/g, "")) || 0;
   const [tE, tD] = useMemo(() => {
     let e = 0, d = 0;
@@ -24,10 +25,11 @@ export default function EntryForm({ year, month, defaultEmployee, defaultPayDate
   return (
     <form action={action} className="card mt-5 p-5">
       <input type="hidden" name="year" value={year} /><input type="hidden" name="month" value={month} />
+      {lockEmployee && <input type="hidden" name="employee_id" value={defaultEmployee} />}
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="sm:col-span-2">
           <label className="label" htmlFor="employee_id">직원</label>
-          <select id="employee_id" name="employee_id" className="input" defaultValue={defaultEmployee} required>
+          <select id="employee_id" name="employee_id" className="input" defaultValue={defaultEmployee} required disabled={lockEmployee}>
             <option value="">선택</option>
             {employees.map((e) => <option key={e.id} value={e.id}>{e.name}{e.department ? ` · ${e.department}` : ""}</option>)}
           </select>
@@ -62,7 +64,7 @@ export default function EntryForm({ year, month, defaultEmployee, defaultPayDate
 
       <div className="mt-5">
         <label className="label" htmlFor="note">계산 방법 또는 비고 (선택)</label>
-        <textarea id="note" name="note" rows={2} className="input" placeholder="예: 연장근로 10시간 × 통상시급 15,000원" />
+        <textarea id="note" name="note" rows={2} className="input" defaultValue={defaultNote} placeholder="예: 연장근로 10시간 × 통상시급 15,000원" />
       </div>
 
       {state.error && <p className="mt-3 text-[13px] text-red-600">{state.error}</p>}

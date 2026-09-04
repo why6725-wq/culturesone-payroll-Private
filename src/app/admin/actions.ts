@@ -86,3 +86,18 @@ export async function saveManualStatement(_: ActionState, form: FormData): Promi
   revalidatePath("/admin");
   return { ok: `${year}년 ${month}월 급여자료 등록 완료 (등록완료 상태). 관리자 화면에서 확정하세요.` };
 }
+
+// ---------- 일괄 처리 (체크박스 선택) ----------
+export async function bulkStatements(ids: string[], action: "confirm" | "cancel", reason?: string): Promise<{ ok: number; failed: string[] }> {
+  await requireAdmin();
+  const sb = createClient();
+  let ok = 0; const failed: string[] = [];
+  for (const id of ids) {
+    const { error } = action === "confirm"
+      ? await sb.rpc("admin_confirm_statement", { p_id: id })
+      : await sb.rpc("admin_cancel_statement", { p_id: id, p_reason: reason ?? "" });
+    if (error) failed.push(error.message.replace(/^.*?: /, "")); else ok++;
+  }
+  revalidatePath("/admin");
+  return { ok, failed };
+}
